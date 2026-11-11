@@ -8,6 +8,8 @@ Disciplina: ENE118 – Informática Industrial (UFJF)
 
 Barbara Castro – matrícula 202169030B – barbara.castro@estudante.ufjf.br – GitHub: [barbaracastro-lgtm](https://github.com/barbaracastro-lgtm)
 
+A classe de comunicação (`cliente/cliente_modbus.py`) foi reaproveitada da atividade anterior (https://github.com/barbaracastro-lgtm/modbus), mantendo todos os métodos originais e acrescentando os métodos de coils e de múltiplos bits/registradores necessários para esta atividade.
+
 ## Estrutura
 
 ```
