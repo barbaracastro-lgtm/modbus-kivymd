@@ -1,0 +1,254 @@
+#:import dp kivy.metrics.dp
+
+<RotuloCampo@MDLabel>:
+    adaptive_size: True
+    font_style: "Body"
+    role: "large"
+
+
+<OpcaoTipo@MDBoxLayout>:
+    # checkbox + texto, usado na escolha do tipo de dado
+    adaptive_size: True
+    spacing: dp(2)
+    texto: ""
+    tipo: ""
+    ativo: False
+    MDCheckbox:
+        group: "tipo_dado"
+        allow_no_selection: False
+        active: root.ativo
+        size_hint: None, None
+        size: dp(40), dp(40)
+        on_active: if self.active: app.mudar_tipo(root.tipo)
+    RotuloCampo:
+        text: root.texto
+        pos_hint: {"center_y": .5}
+
+
+MDBoxLayout:
+    orientation: "vertical"
+    padding: dp(16)
+    spacing: dp(12)
+    md_bg_color: self.theme_cls.backgroundColor
+
+    MDLabel:
+        text: "Cliente Modbus TCP"
+        font_style: "Headline"
+        role: "small"
+        bold: True
+        adaptive_height: True
+
+    # ------------------------------------------------ conexao
+    MDCard:
+        style: "outlined"
+        orientation: "vertical"
+        padding: dp(12)
+        spacing: dp(8)
+        size_hint_y: None
+        height: self.minimum_height
+
+        MDLabel:
+            text: "Conexão"
+            font_style: "Title"
+            role: "medium"
+            adaptive_height: True
+
+        MDBoxLayout:
+            spacing: dp(12)
+            adaptive_height: True
+
+            MDTextField:
+                id: campo_ip
+                mode: "outlined"
+                text: "127.0.0.1"
+                size_hint_x: .45
+                MDTextFieldHintText:
+                    text: "IP do servidor"
+
+            MDTextField:
+                id: campo_porta
+                mode: "outlined"
+                text: "502"
+                input_filter: "int"
+                size_hint_x: .2
+                MDTextFieldHintText:
+                    text: "Porta"
+
+            MDButton:
+                id: btn_conectar
+                style: "filled"
+                pos_hint: {"center_y": .5}
+                on_release: app.conectar()
+                MDButtonText:
+                    id: txt_conectar
+                    text: "Conectar"
+
+            MDLabel:
+                id: lbl_status
+                text: "Desconectado"
+                theme_text_color: "Custom"
+                text_color: app.cor_erro
+                bold: True
+                pos_hint: {"center_y": .5}
+
+    # ------------------------------------------------ operacao
+    MDCard:
+        style: "outlined"
+        orientation: "vertical"
+        padding: dp(12)
+        spacing: dp(8)
+        size_hint_y: None
+        height: self.minimum_height
+
+        MDLabel:
+            text: "Leitura e escrita"
+            font_style: "Title"
+            role: "medium"
+            adaptive_height: True
+
+        MDBoxLayout:
+            adaptive_height: True
+            spacing: dp(16)
+            OpcaoTipo:
+                texto: "Coil"
+                tipo: "coil"
+            OpcaoTipo:
+                texto: "Holding Register"
+                tipo: "hr"
+                ativo: True
+            OpcaoTipo:
+                texto: "Float (2 regs)"
+                tipo: "float"
+            OpcaoTipo:
+                texto: "Bits do registrador"
+                tipo: "bits"
+
+        MDLabel:
+            id: lbl_ajuda
+            text: ""
+            font_style: "Body"
+            role: "small"
+            adaptive_height: True
+            theme_text_color: "Secondary"
+
+        MDBoxLayout:
+            spacing: dp(12)
+            adaptive_height: True
+
+            MDTextField:
+                id: campo_endereco
+                mode: "outlined"
+                text: "830"
+                input_filter: "int"
+                MDTextFieldHintText:
+                    text: "Endereço"
+
+            MDTextField:
+                id: campo_valor
+                mode: "outlined"
+                text: ""
+                MDTextFieldHintText:
+                    text: "Valor a escrever"
+
+            MDTextField:
+                id: campo_div
+                mode: "outlined"
+                text: "1"
+                MDTextFieldHintText:
+                    text: "Div (escala)"
+
+            MDTextField:
+                id: campo_bit
+                mode: "outlined"
+                text: "0"
+                input_filter: "int"
+                MDTextFieldHintText:
+                    text: "Bit inicial"
+
+            MDTextField:
+                id: campo_qtd
+                mode: "outlined"
+                text: "1"
+                input_filter: "int"
+                MDTextFieldHintText:
+                    text: "Quantidade"
+
+        MDBoxLayout:
+            spacing: dp(12)
+            adaptive_height: True
+
+            MDCheckbox:
+                id: chk_recorrente
+                size_hint: None, None
+                size: dp(40), dp(40)
+                pos_hint: {"center_y": .5}
+                on_active: if not self.active: app.parar_recorrente()
+
+            RotuloCampo:
+                text: "Leitura recorrente"
+                pos_hint: {"center_y": .5}
+
+            MDTextField:
+                id: campo_intervalo
+                mode: "outlined"
+                text: "1.0"
+                size_hint_x: None
+                width: dp(130)
+                MDTextFieldHintText:
+                    text: "Intervalo (s)"
+
+            Widget:
+
+            MDButton:
+                style: "tonal"
+                pos_hint: {"center_y": .5}
+                on_release: app.ler()
+                MDButtonText:
+                    id: txt_ler
+                    text: "Ler"
+
+            MDButton:
+                style: "filled"
+                pos_hint: {"center_y": .5}
+                on_release: app.escrever()
+                MDButtonText:
+                    text: "Escrever"
+
+    # ------------------------------------------------ resultado
+    MDCard:
+        style: "filled"
+        orientation: "vertical"
+        padding: dp(12)
+        spacing: dp(6)
+
+        MDLabel:
+            id: lbl_resultado
+            text: "—"
+            font_style: "Headline"
+            role: "small"
+            adaptive_height: True
+
+        MDLabel:
+            id: lbl_detalhe
+            text: ""
+            font_style: "Body"
+            role: "medium"
+            adaptive_height: True
+
+        MDLabel:
+            text: "Histórico"
+            font_style: "Label"
+            role: "large"
+            adaptive_height: True
+            theme_text_color: "Secondary"
+
+        MDScrollView:
+            do_scroll_x: False
+            MDLabel:
+                id: lbl_log
+                text: ""
+                font_style: "Body"
+                role: "small"
+                size_hint_y: None
+                height: self.texture_size[1]
+                text_size: self.width, None

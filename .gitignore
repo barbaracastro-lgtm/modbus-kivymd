@@ -1,0 +1,17 @@
+# ambientes virtuais
+venv/
+.venv/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Kivy / temporarios
+*.log
+.kivy/
+*.tmp
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
