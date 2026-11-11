@@ -6,7 +6,7 @@ com leitura única ou recorrente (via `kivy.clock.Clock`).
 
 Disciplina: ENE118 – Informática Industrial (UFJF)
 
-**Integrante:** Barbara Castro – matrícula 202169030B – barbara.castro@estudante.ufjf.br – GitHub: [barbaracastro-lgtm](https://github.com/barbaracastro-lgtm)
+Barbara Castro – matrícula 202169030B – barbara.castro@estudante.ufjf.br – GitHub: [barbaracastro-lgtm](https://github.com/barbaracastro-lgtm)
 
 ## Estrutura
 
